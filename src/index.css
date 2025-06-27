@@ -1,0 +1,123 @@
+
+@import url('https://rsms.me/inter/inter.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 270 76% 53%;
+    --secondary-foreground: 270 10% 98%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
+  }
+  
+  .section-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .btn-transition {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  .hover-lift {
+    @apply transition-transform duration-200 ease-in-out hover:-translate-y-1;
+  }
+  
+  .page-container {
+    @apply max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in;
+  }
+  
+  .card-highlight {
+    @apply ring-1 ring-inset ring-white/10 hover:ring-white/20 btn-transition;
+  }
+
+  .button-primary {
+    @apply px-4 py-2 rounded-lg bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary btn-transition;
+  }
+  
+  .button-secondary {
+    @apply px-4 py-2 rounded-lg bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary btn-transition;
+  }
+  
+  .button-outline {
+    @apply px-4 py-2 rounded-lg border border-border bg-background text-foreground shadow-sm hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary btn-transition;
+  }
+
+  .input-field {
+    @apply w-full rounded-lg border-input px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+  
+  .labeled-input {
+    @apply flex flex-col space-y-1;
+  }
+  
+  .labeled-input label {
+    @apply text-sm font-medium text-muted-foreground;
+  }
+}
