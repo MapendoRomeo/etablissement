@@ -57,8 +57,8 @@ const StudentCSVImport: React.FC<StudentCSVImportProps> = ({
     ];
 
     const csvContent = [
-      headers.join(','),
-      ...exampleData.map(row => row.join(','))
+      headers.join(';'),
+      ...exampleData.map(row => row.join(';'))
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -74,20 +74,20 @@ const StudentCSVImport: React.FC<StudentCSVImportProps> = ({
 
   const parseCSV = (content: string): CSVStudent[] => {
     const lines = content.trim().split('\n');
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+    const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
     
     // Vérifier les en-têtes requis
     const requiredHeaders = ['nom', 'postnom', 'prenom', 'fraispaye'];
     const missingHeaders = requiredHeaders.filter(h => !headers.includes(h));
     
     if (missingHeaders.length > 0) {
-      throw new Error(`Colonnes manquantes: ${missingHeaders.join(', ')}`);
+      throw new Error(`Colonnes manquantes: ${missingHeaders.join('; ')}`);
     }
 
     const data: CSVStudent[] = [];
     
     for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',').map(v => v.trim());
+      const values = lines[i].split(';').map(v => v.trim());
       if (values.length !== headers.length) {
         throw new Error(`Ligne ${i + 1}: nombre de colonnes incorrect`);
       }
