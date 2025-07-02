@@ -42,6 +42,8 @@ interface DashboardData {
         }[];
         isUpToDate: boolean;
       }[];
+      totalPages: number;
+      currentPage: number;
     };
     paymentData: {
       name: string;
@@ -58,36 +60,38 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedSchool, onSelectSchool })
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [exchangeRateData, setExchangeRateData] = useState<exchangeRate | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
   const navigate = useNavigate();
-
-  const itemsPerPage = 20;
   
   const schoolYearId = localStorage.getItem('selectedYearId');
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
+  const fetchDashboardData = async () => {
       try {
         setLoading(true);
         setError(null);
         // Récupérer les données du dashboard
         const response = await instance.get<DashboardData>(`/dashboard/stats/${selectedSchool}`, {
-        params: { schoolYearId },
-      });
-        setDashboardData(response.data);
-        
+        params: { 
+          schoolYearId,
+          page: currentPage,
+          limit: itemsPerPage 
+        },
+      });  
         // Récupérer le taux de change
         const rateResponse = await instance.get(`/exchange-rate/latest`);
+
+        setDashboardData(response.data);
         setExchangeRateData(rateResponse.data);
       } catch (err) {
-        setError('Erreur lors du chargement des données');
-        toast.error('Erreur lors du chargement des données');
+        setError( error);
+        console.log('Erreur lors du chargement des données', error);
       } finally {
         setLoading(false);
       }
     };
-
+  useEffect(() => {
     fetchDashboardData();
-  }, [selectedSchool]);
+  }, [selectedSchool,currentPage]);
 
   if (loading) {
     return (
@@ -110,11 +114,7 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedSchool, onSelectSchool })
       </div>
     );
   }
-  const totalPages = Math.ceil(dashboardData.data.stats.studentDetails.length / itemsPerPage);
-  const paginatedStudents = dashboardData.data.stats.studentDetails.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedStudents = dashboardData.data.stats.studentDetails
   return (
     <div className="page-container">
       <SchoolSelector selectedSchool={selectedSchool} onSelectSchool={onSelectSchool} />
@@ -267,19 +267,21 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedSchool, onSelectSchool })
                 
               <div className="flex justify-between items-center mt-4">
                 <p className="text-sm text-muted-foreground">
-                  Page {currentPage} sur {totalPages}
+                  Page {currentPage} sur {dashboardData.data.stats.totalPages}
                 </p>
                 <div className="space-x-2">
                   <button
+                    type='button'
                     disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(currentPage - 1)}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     className="button-outline px-4 py-1 disabled:opacity-50"
                   >
                     Précédent
                   </button>
                   <button
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage(currentPage + 1)}
+                    type='button'
+                    disabled={currentPage === dashboardData.data.stats.totalPages}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, dashboardData.data.stats.totalPages))}
                     className="button-outline px-4 py-1 disabled:opacity-50"
                   >
                     Suivant
