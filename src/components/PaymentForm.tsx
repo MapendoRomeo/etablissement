@@ -82,14 +82,13 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ selectedSchool }) => {
   const [feeName, setFeeName] = useState<string>('')
 
   // Récupérer les données initiales
-  useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         
         // Récupérer les élèves
-        const studentsResponse = await instance.get(`/student-payments/${selectedSchool}`);
-        setStudents(studentsResponse.data);
+        const studentsResponse = await instance.get(`/student-payments/${selectedSchool}`, { params:{searchTerm: searchTerm.trim()} });
+        setStudents(studentsResponse.data.students);
 
         // Récupérer le taux de change
         const rateResponse = await instance.get('/exchange-rate/latest');
@@ -100,9 +99,13 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ selectedSchool }) => {
         setLoading(false);
       }
     };
-
+  useEffect(()=>{
+    const timeout = setTimeout(() => {
     fetchData();
-  }, [selectedSchool]);
+  }, 500); // attend 500ms après le dernier caractère tapé
+
+  return () => clearTimeout(timeout); 
+  }, [searchTerm])
 
   const getTermType = (name: string): string => {
         if (name === '1er trimestre') return '1er Trimestre';
@@ -113,7 +116,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ selectedSchool }) => {
   // Filtrer les élèves par recherche
   const filteredStudents = useMemo(() => {
     if (!searchTerm) return students;
-    
     return students.filter(student => 
       `${student.name}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -262,14 +264,16 @@ const adjustedMaxAmount = useMemo(() => {
     setCurrency('USD');
     setPaymentType('tuition');
   };
-
-  if (loading) {
+{/*
+if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
+}*/}
+  
 
   return (
     <div className="page-container">
