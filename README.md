@@ -1,44 +1,146 @@
+# 🎓 CS ÉTOILE MUGUNGA – Frontend (Système de Gestion des Paiements)
 
-# CS ÉTOILE MUGUNGA - Système de gestion scolaire
+Interface web du système de gestion des paiements scolaires développée pour le **service comptable de l’école CS Étoile de Mugunga**.
 
-## Configuration de l'environnement
+Cette application permet de gérer les **élèves, les paiements scolaires et les statistiques financières** via une interface moderne et simple à utiliser.
 
-### Variables d'environnement Supabase
+⚠️ Ce dépôt contient **uniquement le frontend** de l'application.  
+Le **backend est disponible dans un dépôt séparé**.
 
-L'application est configurée avec les identifiants Supabase suivants:
+---
 
-```
-VITE_SUPABASE_URL=https://nnmylgnlaalvoulwfeyt.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ubXlsZ25sYWFsdm91bHdmZXl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMxNDUxNTcsImV4cCI6MjA1ODcyMTE1N30.EDwj-gvqm7CQFbWzK-lQ-_rkcYj-kig87_EysLBedCs
-```
+# 🚀 Aperçu
 
-### Structure de la base de données
+Le système permet au comptable de l’école de :
 
-⚠️ **IMPORTANT**: Pour que l'application fonctionne correctement, vous **DEVEZ** créer les tables nécessaires dans votre projet Supabase en suivant ces étapes:
+- Consulter la **liste des élèves**
+- Enregistrer les **paiements scolaires**
+- Suivre les **paiements par trimestre**
+- Identifier les **paiements en attente**
+- Consulter des **statistiques financières**
+- Gérer les informations liées à l’année scolaire
 
-1. Connectez-vous à votre projet Supabase (https://app.supabase.com)
-2. Allez dans la section "SQL Editor"
-3. Créez une nouvelle requête
-4. Copiez-collez tout le contenu du fichier `schema.sql` de ce projet
-5. Exécutez la requête (cliquez sur "Run")
-6. Une fois les tables créées, vous pouvez ajouter des données de test en exécutant la requête d'insertion fournie
+---
 
-Sans ces étapes, l'application affichera une erreur de connexion car les tables nécessaires n'existent pas encore.
+# 🛠️ Technologies utilisées
 
-### Démarrage du projet
+- React
+- TypeScript
+- Vite
+- TailwindCSS
+- Axios
+
+---
+
+# ⚙️ Installation du projet
+
+### 1️⃣ Cloner le projet
 
 ```bash
-# Installation des dépendances
-npm install
+git clone https://github.com/MapendoRomeo/etablissement
+```
 
-# Démarrage du serveur de développement
+### 2️⃣ Accéder au dossier du projet
+
+```bash
+cd etablissement
+```
+
+### 3️⃣ Installer les dépendances
+
+```bash
+npm install
+```
+
+### 4️⃣ Lancer le serveur de développement
+
+```bash
 npm run dev
 ```
 
-## Fonctionnalités
+L'application sera disponible sur :
 
-- Gestion des élèves
-- Suivi des paiements
-- Configuration de l'année scolaire
-- Gestion des utilisateurs
-- Tableau de bord avec statistiques
+```
+http://localhost:5173
+```
+
+---
+
+# 🔗 Connexion au Backend
+
+Cette application communique avec un **backend API développé séparément**.
+
+Avant de lancer le projet, assurez-vous que :
+
+- le **backend est démarré**
+- l’URL de l’API est correctement configurée dans les services frontend.
+
+Exemple de configuration :
+
+```ts
+const API_URL = "http://localhost:5000/api";
+```
+
+---
+
+# 📁 Structure du projet
+
+```
+src/
+│
+├── api/          # configuration des appels API
+├── components/   # composants réutilisables de l’interface
+├── contexts/     # context React pour la gestion de l’état global
+├── hooks/        # hooks personnalisés
+├── lib/          # librairies ou configurations partagées
+├── pages/        # pages principales de l’application
+├── services/     # logique des appels au backend
+├── types/        # types TypeScript
+└── utils/        # fonctions utilitaires
+```
+
+---
+
+# 📊 Fonctionnalités principales
+
+### 👨‍🎓 Gestion des élèves
+- Consultation des élèves
+- Organisation par classe
+
+### 💰 Gestion des paiements
+- Enregistrement des paiements
+- Suivi des paiements par trimestre
+- Vérification des paiements restants
+
+### 📈 Tableau de bord
+- Statistiques générales
+- Vue globale des paiements
+
+---
+
+# 🎯 Objectif du projet
+
+Ce projet a été développé pour :
+
+- **digitaliser la gestion comptable de l’école**
+- faciliter le **suivi des paiements scolaires**
+- réduire les **erreurs liées à la gestion papier**
+- améliorer l’**organisation administrative**
+
+---
+
+# 👨‍💻 Auteur
+
+**Mapendo Rubuga Roméo**
+
+Développeur Full Stack  
+React • Node.js • TypeScript  
+
+📍 Goma, RDC
+
+---
+
+# 📌 Statut du projet
+
+✅ Frontend fonctionnel  
+✅ Backend disponible dans ce dépôt : https://github.com/MapendoRomeo/backend_etablissement
